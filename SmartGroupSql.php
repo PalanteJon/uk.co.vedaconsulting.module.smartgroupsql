@@ -60,6 +60,13 @@ function smartgroupsql_civicrm_install() {
       ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
   ");
 
+  //if binary logging is enabled, create a log table as well
+  $logging = new CRM_Logging_Schema;
+  $isLogging = $logging->isEnabled();
+  if($isLogging){
+    $result = $logging->fixSchemaDifferencesFor('civicrm_group_additional_where_clause', NULL, FALSE);
+  }
+
   return _smartgroupsql_civix_civicrm_install();
 }
 
